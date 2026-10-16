@@ -317,7 +317,7 @@ window.unlockSystem = function() {
             if(bV.style.display !== 'none') bV.play().catch(function(e){});
         }
         if(!welcomeShown) {
-            showNotification("Welcome To Cine V2", "Checkout Settings for FAQ!");
+            showNotification("Welcome To TRRN+", "Checkout Settings for FAQ!");
             welcomeShown = true;
         }
     }, 600);
