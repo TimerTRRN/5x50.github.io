@@ -107,7 +107,7 @@ function applyCloak() {
         n.href = sel.icon;
         document.getElementsByTagName('head')[0].appendChild(n);
     } else {
-        document.title = "Cine-OS";
+        document.title = "TRRN+";
     }
 }
 setInterval(applyCloak, 2000);
