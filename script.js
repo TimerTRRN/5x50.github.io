@@ -16,8 +16,7 @@ var APPS = {
     'Geforce': {title: 'Duckmath', path: 'script/Apps/Geforce/index.html', icon: 'https://cdn.phototourl.com/member/2026-09-25-a3822107-3ab4-4f76-b894-0a6af7fd9516.png', pinned: false},
     'Fortnite': {title: 'Fortnite', path: 'script/Apps/Fortnite/index.html', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShiXrQ-cvZeDyQNPIZCv_hsaUCAe5j_rXJ7Q&s', pinned: false},
     'RocketL': {title: 'Rocket League', path: 'script/Apps/RocketL/index.html', icon: 'https://ygo-assets-entities-us.yougov.net/87bb7a16-2b62-11e8-82b1-37bb0d207ced.jpg?zcw=518&zch=518&zct=10&zcl=0', pinned: false},
-    'Xbox': {title: 'Xbox', path: 'script/Apps/Xbox/index.html', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRknRQh-WRK4F75YB3EAlfrsqAk66Xjn45sBg&s', pinned: false},
-};
+    'Xbox': {title: 'Tung Tung', path: 'script/Apps/Xbox/index.html', icon: 'https://cdn.phototourl.com/member/2026-10-20-6c393f1f-056b-4d85-aa06-8ac9cd767921.png', pinned: false},};
 
 var savedPins = localStorage.getItem('c_pins_v2');
 if(savedPins) {
