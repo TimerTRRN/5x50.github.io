@@ -2,7 +2,7 @@ var _SYSTEM_PATHS = ["C:/Windows/System32/kernel32.dll", "/var/www/html/cine-os/
 var _devBuildVer = "3.0.1";
 
 var APPS = {
-    'cine': {title: 'Geometry Dash', path: 'script/Apps/Cine/index.html', icon: '', pinned: true},
+    'cine': {title: 'Geometry Dash', path: 'script/Apps/Cine/index.html', icon: 'https://cdn.phototourl.com/member/2026-10-20-746f34d6-2390-49a7-93a2-ff0c78257028.png', pinned: true},
     'term': {title: 'Spotify', path: 'script/Apps/Spotify/index.html', icon: 'https://cdn.pixabay.com/photo/2016/10/22/00/15/spotify-1759471_1280.jpg', pinned: true},
     'files': {title: 'PS5 Emu', path: 'script/Apps/Ps5/index.html', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-OeL_be7RFaoHi3PswkuAR5XcMgBNRDynsg&s', pinned: true},
     'web': {title: 'JSPAINT', path: 'script/Apps/Web/index.html', icon: 'https://cdn.phototourl.com/member/2026-09-25-f1153bae-c4f1-4868-94d0-afadf4bca917.png', pinned: true},
