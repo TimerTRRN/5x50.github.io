@@ -575,7 +575,7 @@ function openWindow(id) {
                     <div class="setting-card">
                         <div class="setting-text"><b>Tab Cloaking</b><small>Disguises OS as another site</small></div>
                         <select id="cloak-select" onchange="window.parent.updateCloak(this.value)">
-                            <option value="none">None (Cine-OS)</option>
+                            <option value="none">None (TRRN-OS)</option>
                             <option value="google">Google</option>
                             <option value="drive">Google Drive</option>
                             <option value="canvas">Canvas</option>
