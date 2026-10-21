@@ -8,13 +8,13 @@ var APPS = {
     'web': {title: 'JSPAINT', path: 'script/Apps/Web/index.html', icon: 'https://cdn.phototourl.com/member/2026-09-25-f1153bae-c4f1-4868-94d0-afadf4bca917.png', pinned: true},
     'settings': {title: 'CONFIG', internal: true, icon: 'https://cdn.phototourl.com/member/2026-09-25-77b6be6d-96fd-4443-aa86-87e445ca7471.png', pinned: true},
     'discord': {title: 'Discord', path: 'script/Apps/Discord/index.html', icon: 'https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png', pinned: false},
-    'roblox': {title: 'Roblox', path: 'script/Apps/Roblox/index.html', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9KvNyFWMg_bjo_q_1IVLKFWbfCeonn2qDow&s', pinned: false},
-    'android': {title: 'Android', path: 'script/Apps/Android/index.html', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/android-icon.png', pinned: false},
+    'roblox': {title: 'WIP', path: 'script/Apps/Roblox/index.html', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9KvNyFWMg_bjo_q_1IVLKFWbfCeonn2qDow&s', pinned: false},
+    'android': {title: 'WIP', path: 'script/Apps/Android/index.html', icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/android-icon.png', pinned: false},
     'ciniai': {title: 'EaglerCraft', path: 'script/Apps/Cini/index.html', icon: 'https://cdn.phototourl.com/member/2026-09-24-d47cf00b-8916-43b4-b88b-7c00eb5b236a.png', pinned: false},
     'VM': {title: 'Youtube', path: 'script/Apps/VM/index.html', icon: 'https://cdn.phototourl.com/member/2026-09-25-3c4a1e92-b357-47f4-80fc-7d0cc933285c.png', pinned: false},
     'crunchyroll': {title: 'Calculator', path: 'script/Apps/Crunchy/index.html', icon: 'https://cdn.phototourl.com/member/2026-10-06-2fcd7969-6a98-4a22-b42b-21f57cd21489.png', pinned: false},
     'Geforce': {title: 'Duckmath', path: 'script/Apps/Geforce/index.html', icon: 'https://cdn.phototourl.com/member/2026-09-25-a3822107-3ab4-4f76-b894-0a6af7fd9516.png', pinned: false},
-    'Fortnite': {title: 'Fortnite', path: 'script/Apps/Fortnite/index.html', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShiXrQ-cvZeDyQNPIZCv_hsaUCAe5j_rXJ7Q&s', pinned: false},
+    'Fortnite': {title: 'WIP', path: 'script/Apps/Fortnite/index.html', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShiXrQ-cvZeDyQNPIZCv_hsaUCAe5j_rXJ7Q&s', pinned: false},
     'RocketL': {title: 'SATONA', path: 'script/Apps/RocketL/index.html', icon: 'https://cdn.phototourl.com/member/2026-10-20-fbf4a56a-0d5d-4d45-b54c-8c0c6a296b09.png', pinned: false},
     'Xbox': {title: 'Tung Tung', path: 'script/Apps/Xbox/index.html', icon: 'https://cdn.phototourl.com/member/2026-10-20-8fbd275d-49b2-4d62-b0dd-10c5f5209f52.png', pinned: false},};
 
