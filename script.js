@@ -47,7 +47,7 @@ var wallpaperRegistry = {
     "Minecraft02": {id: "Minecraft02", name: "Minecraft 02", url: "Videos/Minecraft02.mp4", locked: false},
     "Minecraft03": {id: "Minecraft03", name: "Minecraft 03", url: "Videos/Minecraftchill.mp4", locked: false},
     "Monkey": {id: "Monkey", name: "Monkey", url: "Videos/Monkey.mp4", locked: false},
-    "Skello": {id: "Skello", name: "Snowfall", url: "Videos/snowfall.MP4", locked: false},
+    "Skello": {id: "Skello", name: "snowfall", url: "Videos/snowfall.MP4", locked: false},
     "SnowFox": {id: "SnowFox", name: "Snow Fox", url: "Videos/SnowFox.mp4", locked: false},
     "Supra": {id: "Supra", name: "Supra Drift", url: "Videos/Supra.PNG", locked: false},
     "Yuji52": {id: "Yuji52", name: "Yuji 52", url: "Videos/Yuji52.mp4", locked: false},
