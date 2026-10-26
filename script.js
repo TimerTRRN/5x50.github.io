@@ -15,7 +15,7 @@ var APPS = {
     'crunchyroll': {title: 'Calculator', path: 'script/Apps/Crunchy/index.html', icon: 'https://cdn.phototourl.com/member/2026-10-06-2fcd7969-6a98-4a22-b42b-21f57cd21489.png', pinned: false},
     'Geforce': {title: 'Duckmath', path: 'script/Apps/Geforce/index.html', icon: 'https://cdn.phototourl.com/member/2026-09-25-a3822107-3ab4-4f76-b894-0a6af7fd9516.png', pinned: false},
     'Fortnite': {title: 'WIP', path: 'script/Apps/Fortnite/index.html', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShiXrQ-cvZeDyQNPIZCv_hsaUCAe5j_rXJ7Q&s', pinned: false},
-    'RocketL': {title: 'SATONA', path: 'script/Apps/RocketL/index.html', icon: 'https://cdn.phototourl.com/member/2026-10-20-fbf4a56a-0d5d-4d45-b54c-8c0c6a296b09.png', pinned: false},
+    'RocketL': {title: 'WIP', path: 'script/Apps/RocketL/index.html', icon: 'https://cdn.phototourl.com/member/2026-10-20-fbf4a56a-0d5d-4d45-b54c-8c0c6a296b09.png', pinned: false},
     'Xbox': {title: 'Tung Tung', path: 'script/Apps/Xbox/index.html', icon: 'https://cdn.phototourl.com/member/2026-10-20-8fbd275d-49b2-4d62-b0dd-10c5f5209f52.png', pinned: false},};
 
 var savedPins = localStorage.getItem('c_pins_v2');
