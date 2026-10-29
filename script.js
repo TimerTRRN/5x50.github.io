@@ -8,7 +8,7 @@ var APPS = {
     'web': {title: 'JSPAINT', path: 'script/Apps/Web/index.html', icon: 'https://cdn.phototourl.com/member/2026-09-25-f1153bae-c4f1-4868-94d0-afadf4bca917.png', pinned: true},
     'settings': {title: 'CONFIG', internal: true, icon: 'https://cdn.phototourl.com/member/2026-09-25-77b6be6d-96fd-4443-aa86-87e445ca7471.png', pinned: true},
     'discord': {title: 'FNaF', path: 'script/Apps/Discord/index.html', icon: 'https://cdn.phototourl.com/member/2026-10-22-ac90a19b-43c6-46d8-8372-0092fccaf2df.png', pinned: false},
-    'roblox': {title: 'DESYNC', path: 'script/Apps/Roblox/index.html', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9KvNyFWMg_bjo_q_1IVLKFWbfCeonn2qDow&s', pinned: false},
+    'roblox': {title: 'DESYNC', path: 'script/Apps/Roblox/index.html', icon: 'https://cdn.phototourl.com/member/2026-10-29-5fe19e38-b375-49c3-a133-62d021949632.png', pinned: false},
     'android': {title: 'Deltarune 1-5', path: 'script/Apps/Android/index.html', icon: 'https://cdn.phototourl.com/member/2026-09-24-a0fae82e-6659-44d0-bcde-fc596af49347.png', pinned: false},
     'ciniai': {title: 'EaglerCraft', path: 'script/Apps/Cini/index.html', icon: 'https://cdn.phototourl.com/member/2026-09-24-d47cf00b-8916-43b4-b88b-7c00eb5b236a.png', pinned: false},
     'VM': {title: 'Youtube', path: 'script/Apps/VM/index.html', icon: 'https://cdn.phototourl.com/member/2026-09-25-3c4a1e92-b357-47f4-80fc-7d0cc933285c.png', pinned: false},
