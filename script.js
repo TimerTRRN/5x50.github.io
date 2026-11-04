@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function renderUI() {
     let dock = document.getElementById('dock-container');
-    let dHTML = '<div class="dock-item" onclick="toggleStartMenu()"><img src="https://missionsupport.archden.org/wp-content/uploads/2022/02/windows11-icon.png"></div><div class="dock-sep"></div><div class="dock-item" onclick="toggleAppDrawer()"><svg width="24" height="24" viewBox="0 0 24 24" fill="#aaa"><path d="M4 4h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 10h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 16h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4z"/></svg></div><div class="dock-sep"></div>';
+    let dHTML = '<div class="dock-item" onclick="toggleStartMenu()"><img src="https://missionsupport.archden.org/wp-content/uploads/2022/02/windows11-icon.png"></div><div class="dock-sep"></div>';
     
     let pGrid = document.getElementById('pinned-grid');
     let pHTML = '';
@@ -516,14 +516,24 @@ function openWindow(id) {
     
     if(!win) {
         let dat = APPS[id] || {title: 'APP', path: 'about:blank'};
+        let winCount = document.querySelectorAll('.window').length;
+        let offsetX = 150 + (winCount * 28);
+        let offsetY = 100 + (winCount * 24);
+        if(offsetX > window.innerWidth - 380) offsetX = 160 + ((winCount % 5) * 26);
+        if(offsetY > window.innerHeight - 260) offsetY = 110 + ((winCount % 5) * 24);
+
         win = document.createElement('div');
         win.id = 'win-' + id;
         win.className = 'window active header-visible';
         win.style.zIndex = ++highestZ;
+        win.style.left = offsetX + 'px';
+        win.style.top = offsetY + 'px';
+        win.style.width = 'min(920px, calc(100vw - 220px))';
+        win.style.height = 'min(680px, calc(100vh - 180px))';
         
         let iframeStr = dat.internal ? '<iframe id="frame-' + id + '"></iframe>' : '<iframe id="frame-' + id + '" src="' + dat.path + '"></iframe>';
         
-        win.innerHTML = '<div class="win-header" onmousedown="DragSystem.startWinDrag(event, \'' + id + '\')"><div class="win-title">' + dat.title + '</div><div class="win-controls"><div class="win-btn btn-min" onclick="minimizeWindow(\'' + id + '\')"></div><div class="win-btn btn-close" onclick="closeWindow(\'' + id + '\')"></div></div></div><div class="win-body">' + iframeStr + '</div>';
+        win.innerHTML = '<div class="win-header" onmousedown="DragSystem.startWinDrag(event, \'' + id + '\')"><div class="win-title">' + dat.title + '</div><div class="win-controls"><div class="win-btn btn-min" onclick="minimizeWindow(\'' + id + '\')"></div><div class="win-btn btn-full" onclick="toggleWindowFullscreen(\'' + id + '\')"></div><div class="win-btn btn-close" onclick="closeWindow(\'' + id + '\')"></div></div></div><div class="win-body">' + iframeStr + '</div>';
         
         layer.appendChild(win);
         
@@ -583,7 +593,7 @@ function openWindow(id) {
                     </div>
                     <div class="setting-card">
                         <div class="setting-text"><b>Panic Key</b><small>Instant site redirection shortcut</small></div>
-                        <input type="text" id="panic-input" maxlength="1" style="width:40px; text-align:center; font-weight:bold; font-size:16px;" onkeyup="window.parent.updateSysSetting('panicKey',this.value)">
+                        <input type="text" id="panic-input" maxlength="1" style="width:40px; text-align:center; font-weight:bold; font-size:16px;" onkeyup="window.parent.updateSysSetting('panicKey', this.value || '`')">
                     </div>
                     <script>
                         var prefs = window.parent.sysConfig;
@@ -624,6 +634,28 @@ function minimizeWindow(id) {
         if(activeWindowId === id) activeWindowId = null;
     }
     endImmersiveMode();
+}
+
+function toggleWindowFullscreen(id) {
+    let w = document.getElementById('win-' + id);
+    if(!w) return;
+    const isFull = w.classList.toggle('fullscreen');
+    w.style.left = isFull ? '0px' : (w.dataset.x || '160px');
+    w.style.top = isFull ? '0px' : (w.dataset.y || '110px');
+    if(isFull) {
+        w.dataset.x = w.style.left;
+        w.dataset.y = w.style.top;
+    }
+    if(isFull) {
+        w.style.width = '100vw';
+        w.style.height = '100vh';
+    } else {
+        w.style.width = 'min(920px, calc(100vw - 220px))';
+        w.style.height = 'min(680px, calc(100vh - 180px))';
+    }
+    w.classList.remove('minimized');
+    w.classList.add('active');
+    activeWindowId = id;
 }
 
 function startImmersiveMode(win) {
@@ -1123,10 +1155,10 @@ function checkApiKey() {
     if(!st) return;
     if(localStorage.getItem('ciri_key')) {
         st.textContent = "Secure"; st.className = "secure";
-        si.innerHTML = '<svg class="secure-svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>';
+        si.innerHTML = '<svg class="secure-svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>';
     } else {
         st.textContent = "Unstable"; st.className = "unstable";
-        si.innerHTML = '<svg class="unstable-svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+        si.innerHTML = '<svg class="unstable-svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>';
     }
 }
 checkApiKey();
