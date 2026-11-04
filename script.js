@@ -1,151 +1,133 @@
-/* Load the last complete, unmodified application script, then apply window behavior fixes. */
-(function() {
-    var baseScript = document.createElement('script');
-    baseScript.src = 'https://raw.githubusercontent.com/TimerTRRN/5x50.github.io/9aa5dbc7a2838a288eedbf9e2d092d8050c0efc6/script.js';
-    baseScript.onload = function() {
-        function initializeApp() {
-            if (window.__trrnAppInitialized) return;
-            window.__trrnAppInitialized = true;
-            applyCloak();
-            loadDynamicResources();
-            var bootLayer = document.getElementById('boot-layer');
-            if (bootLayer) bootLayer.style.display = 'block';
-            loadDesktop();
-            updateSidebarData();
-        }
+(function () {
+  function patchWindowBehavior() {
+    const topTrigger = document.getElementById('top-trigger');
+    if (topTrigger) topTrigger.style.pointerEvents = 'none';
 
-        // The script is loaded asynchronously; run its DOM-ready setup if that event already fired.
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeApp, { once: true });
-        } else {
-            initializeApp();
-        }
+    function cascadeWindow(win) {
+      if (!win || win.classList.contains('fullscreen')) return;
+      const all = Array.from(document.querySelectorAll('.window:not(.fullscreen)'));
+      const idx = all.indexOf(win);
+      const offset = idx >= 0 ? idx * 26 : 0;
+      const safeLeft = Math.min(120 + offset, Math.max(30, window.innerWidth - 420));
+      const safeTop = Math.min(80 + offset, Math.max(20, window.innerHeight - 260));
+      win.style.left = safeLeft + 'px';
+      win.style.top = safeTop + 'px';
+      win.dataset.windowX = String(safeLeft);
+      win.dataset.windowY = String(safeTop);
+    }
 
-        // Open new windows in a visible cascade rather than exactly on top of each other.
-        var originalOpenWindow = window.openWindow;
-        window.openWindow = function(id) {
-            var isNewWindow = !document.getElementById('win-' + id);
-            originalOpenWindow(id);
-            if (!isNewWindow) return;
+    function attachDrag(win) {
+      if (!win || win.dataset.winPatch === '1') return;
+      win.dataset.winPatch = '1';
 
-            var win = document.getElementById('win-' + id);
-            if (!win) return;
-            var windows = document.querySelectorAll('.window');
-            var offset = (windows.length - 1) % 7;
-            var width = Math.min(920, Math.max(320, window.innerWidth - 40));
-            var height = Math.min(680, Math.max(240, window.innerHeight - 80));
-            var left = Math.min(120 + offset * 32, Math.max(0, window.innerWidth - width));
-            var top = Math.min(70 + offset * 28, Math.max(0, window.innerHeight - height));
-            win.style.left = left + 'px';
-            win.style.top = top + 'px';
-            win.dataset.windowX = left + 'px';
-            win.dataset.windowY = top + 'px';
-            win.dataset.windowWidth = width + 'px';
-            win.dataset.windowHeight = height + 'px';
+      const header = win.querySelector('.win-header');
+      if (!header) return;
+
+      let drag = null;
+      header.addEventListener('pointerdown', function (e) {
+        if (e.target.closest('.win-btn')) return;
+        if (win.classList.contains('fullscreen')) return;
+        drag = {
+          startX: e.clientX,
+          startY: e.clientY,
+          origLeft: win.offsetLeft,
+          origTop: win.offsetTop,
+          maxLeft: Math.max(0, window.innerWidth - win.offsetWidth),
+          maxTop: Math.max(0, window.innerHeight - 45)
         };
+        win.classList.add('dragging');
+        win.setPointerCapture?.(e.pointerId);
+        e.preventDefault();
+      });
 
-        // Keep a window's own titlebar available at its top edge; the screen-edge trigger
-        // is not useful once windows are floating away from the top of the desktop.
-        document.addEventListener('mousemove', function(e) {
-            var active = activeWindowId && document.getElementById('win-' + activeWindowId);
-            if (!active || active.classList.contains('minimized')) return;
-            var header = active.querySelector('.win-header');
-            if (!header) return;
-            var rect = active.getBoundingClientRect();
-            var withinWindowTop = e.clientX >= rect.left && e.clientX <= rect.right &&
-                e.clientY >= rect.top && e.clientY <= rect.top + 45;
-            if (withinWindowTop || header.contains(e.target)) {
-                active.classList.add('header-visible');
-            } else {
-                active.classList.remove('header-visible');
-            }
-        });
+      header.addEventListener('pointermove', function (e) {
+        if (!drag) return;
+        const dx = e.clientX - drag.startX;
+        const dy = e.clientY - drag.startY;
+        const nextLeft = Math.min(drag.maxLeft, Math.max(0, drag.origLeft + dx));
+        const nextTop = Math.min(drag.maxTop, Math.max(0, drag.origTop + dy));
+        win.style.left = nextLeft + 'px';
+        win.style.top = nextTop + 'px';
+      });
 
-        // Replace the former no-op window drag path with actual titlebar dragging.
-        DragSystem.startWinDrag = function(e, id) {
-            if (e.button !== 0 || e.target.closest('.win-controls')) return;
-            var win = document.getElementById('win-' + id);
-            if (!win || win.classList.contains('fullscreen')) return;
-            e.preventDefault();
-            this.startPos = { x: e.clientX, y: e.clientY };
-            this.sourceType = 'window';
-            this.sourceEl = win;
-            this.startWindowPosition = {
-                x: win.getBoundingClientRect().left,
-                y: win.getBoundingClientRect().top
-            };
-            this.isDragMove = false;
-            win.style.zIndex = ++highestZ;
-            activeWindowId = id;
-            win.classList.add('header-visible');
-        };
+      header.addEventListener('pointerup', function () {
+        drag = null;
+        win.classList.remove('dragging');
+      });
 
-        var originalDragMove = DragSystem.move;
-        DragSystem.move = function(e) {
-            if (this.sourceType !== 'window' || !this.sourceEl) {
-                originalDragMove.call(this, e);
-                return;
-            }
-            var dx = e.clientX - this.startPos.x;
-            var dy = e.clientY - this.startPos.y;
-            if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
-                this.dragging = true;
-                this.isDragMove = true;
-                this.sourceEl.classList.add('dragging');
-            }
-            if (!this.dragging) return;
-            var win = this.sourceEl;
-            var maxLeft = Math.max(0, window.innerWidth - win.offsetWidth);
-            var maxTop = Math.max(0, window.innerHeight - 45);
-            var left = Math.max(0, Math.min(maxLeft, this.startWindowPosition.x + dx));
-            var top = Math.max(0, Math.min(maxTop, this.startWindowPosition.y + dy));
-            win.style.left = left + 'px';
-            win.style.top = top + 'px';
-            win.dataset.windowX = left + 'px';
-            win.dataset.windowY = top + 'px';
-        };
+      header.addEventListener('pointerleave', function () {
+        if (!drag) return;
+        drag = null;
+        win.classList.remove('dragging');
+      });
+    }
 
-        var originalDragEnd = DragSystem.end;
-        DragSystem.end = function(e) {
-            if (this.sourceType !== 'window') {
-                originalDragEnd.call(this, e);
-                return;
-            }
-            if (this.sourceEl) this.sourceEl.classList.remove('dragging');
-            this.reset();
-        };
+    function keepHeaderOnWindow(e) {
+      const active = document.querySelector('.window.active:not(.minimized)');
+      if (!active) return;
+      const rect = active.getBoundingClientRect();
+      const onTopBand = e.clientY <= rect.top + 20 && e.clientX >= rect.left && e.clientX <= rect.right;
+      const insideHeader = active.querySelector('.win-header')?.contains(e.target) || false;
+      if (onTopBand || insideHeader) {
+        active.classList.add('header-visible');
+      } else {
+        active.classList.remove('header-visible');
+      }
+    }
 
-        // Fullscreen and restore preserve the window's previous size and position.
-        window.toggleWindowFullscreen = function(id) {
-            var win = document.getElementById('win-' + id);
-            if (!win) return;
-            var enteringFullscreen = !win.classList.contains('fullscreen');
-            if (enteringFullscreen) {
-                var rect = win.getBoundingClientRect();
-                win.dataset.windowX = rect.left + 'px';
-                win.dataset.windowY = rect.top + 'px';
-                win.dataset.windowWidth = rect.width + 'px';
-                win.dataset.windowHeight = rect.height + 'px';
-                win.classList.add('fullscreen');
+    function enhanceOpenWindow() {
+      const original = window.openWindow;
+      if (!original) return;
+      window.openWindow = function (id) {
+        const wasOpen = !!document.getElementById('win-' + id);
+        original.call(this, id);
+        requestAnimationFrame(function () {
+          const win = document.getElementById('win-' + id);
+          if (!win) return;
+          cascadeWindow(win);
+          attachDrag(win);
+          if (!wasOpen) win.classList.add('header-visible');
+          const btn = win.querySelector('.btn-full');
+          if (btn) {
+            btn.onclick = function (ev) {
+              ev.stopPropagation();
+              win.classList.toggle('fullscreen');
+              if (win.classList.contains('fullscreen')) {
+                win.dataset.windowX = win.style.left;
+                win.dataset.windowY = win.style.top;
                 win.style.left = '0px';
                 win.style.top = '0px';
                 win.style.width = '100vw';
                 win.style.height = '100vh';
-            } else {
-                win.classList.remove('fullscreen');
+                win.style.borderRadius = '0';
+              } else {
                 win.style.left = win.dataset.windowX || '120px';
-                win.style.top = win.dataset.windowY || '70px';
-                win.style.width = win.dataset.windowWidth || 'min(920px, calc(100vw - 220px))';
-                win.style.height = win.dataset.windowHeight || 'min(680px, calc(100vh - 180px))';
-            }
-            win.classList.add('active', 'header-visible');
-            win.classList.remove('minimized');
-            win.style.zIndex = ++highestZ;
-            activeWindowId = id;
-        };
-    };
-    baseScript.onerror = function() {
-        console.error('TRRN+ could not load its application script. Check network access to raw.githubusercontent.com.');
-    };
-    document.head.appendChild(baseScript);
+                win.style.top = win.dataset.windowY || '80px';
+                win.style.width = 'min(920px, calc(100vw - 220px))';
+                win.style.height = 'min(680px, calc(100vh - 180px))';
+                win.style.borderRadius = '14px 14px 0 0';
+              }
+            };
+          }
+        });
+      };
+    }
+
+    function initExistingWindows() {
+      document.querySelectorAll('.window').forEach(function (win) {
+        cascadeWindow(win);
+        attachDrag(win);
+      });
+    }
+
+    document.addEventListener('mousemove', keepHeaderOnWindow, { passive: true });
+    enhanceOpenWindow();
+    initExistingWindows();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', patchWindowBehavior, { once: true });
+  } else {
+    patchWindowBehavior();
+  }
 })();
