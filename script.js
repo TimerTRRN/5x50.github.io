@@ -14,7 +14,7 @@ var APPS = {
     'VM': {title: 'Youtube', path: 'script/Apps/VM/index.html', icon: 'https://cdn.phototourl.com/member/2026-09-25-3c4a1e92-b357-47f4-80fc-7d0cc933285c.png', pinned: false},
     'crunchyroll': {title: 'Calculator', path: 'script/Apps/Crunchy/index.html', icon: 'https://cdn.phototourl.com/member/2026-10-06-2fcd7969-6a98-4a22-b42b-21f57cd21489.png', pinned: false},
     'Geforce': {title: 'Duckmath', path: 'script/Apps/Geforce/index.html', icon: 'https://cdn.phototourl.com/member/2026-09-25-a3822107-3ab4-4f76-b894-0a6af7fd9516.png', pinned: false},
-    'Fern': {title: 'Fern', path: 'script/Apps/Proxy/index.html', icon: 'https://cdn.phototourl.com/member/2026-11-10-8d1c6ac0-3e66-441f-8541-7250477c308a.png', pinned: false},
+    'Fern': {title: 'Fern', path: 'script/Apps/Fern/index.html', icon: 'https://cdn.phototourl.com/member/2026-11-10-8d1c6ac0-3e66-441f-8541-7250477c308a.png', pinned: false},
     'RocketL': {title: 'SATONA', path: 'script/Apps/RocketL/index.html', icon: 'https://cdn.phototourl.com/member/2026-10-20-fbf4a56a-0d5d-4d45-b54c-8c0c6a296b09.png', pinned: false},
     'Xbox': {title: 'Tung Tung', path: 'script/Apps/Xbox/index.html', icon: 'https://cdn.phototourl.com/member/2026-10-20-8fbd275d-49b2-4d62-b0dd-10c5f5209f52.png', pinned: false},};
 
